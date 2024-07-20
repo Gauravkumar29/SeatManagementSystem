@@ -1,13 +1,13 @@
-package com.example.SeatManagementSystem;
+package com.hackathon.StudentManagementSystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SeatManagementSystemApplication {
+public class StudentManagementSystemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SeatManagementSystemApplication.class, args);
+		SpringApplication.run(StudentManagementSystemApplication.class, args);
 	}
 
 }

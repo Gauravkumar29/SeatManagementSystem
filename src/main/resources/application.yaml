@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url : jdbc:mysql://localhost:3306/seat_management_system?useSSL=false
+    username : root
+    password : root
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+  #jpa Setting
+  jpa.hibernate.ddl_auto : update
