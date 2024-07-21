@@ -1,33 +1,56 @@
-
 pipeline {
     agent any
 
     tools {
-        // Install the Maven version configured as "M3" and add it to the path.
+        // Install the Maven version configured as "M3" and JDK configured as "JDK11" in Jenkins
         maven "M3"
+        jdk "JDK11"
+    }
+
+    environment {
+        // Set up any necessary environment variables
+        MVN_HOME = tool name: 'M3', type: 'maven'
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the repository
+                git 'https://github.com/your-username/your-repo.git'
+            }
+        }
         stage('Build') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/Gauravkumar29/SeatManagementSystem.git'
-
-                // Run Maven on a Unix agent.
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
-
-                // To run Maven on a Windows agent, use
-                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+                // Run the Maven build
+                sh "${MVN_HOME}/bin/mvn clean install"
             }
-
-            post {
-                // If Maven was able to run the tests, even if some of the test
-                // failed, record the test results and archive the jar file.
-                success {
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts 'target/*.jar'
-                }
+        }
+        stage('Test') {
+            steps {
+                // Run the Maven tests
+                sh "${MVN_HOME}/bin/mvn test"
             }
+        }
+        stage('Archive') {
+            steps {
+                // Archive the built artifacts
+                archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            // Clean up the workspace after the build
+            cleanWs()
+        }
+        success {
+            // Notify the success
+            echo 'Build and tests succeeded.'
+        }
+        failure {
+            // Notify the failure
+            echo 'Build or tests failed.'
         }
     }
 }
