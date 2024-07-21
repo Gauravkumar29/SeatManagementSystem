@@ -11,3 +11,10 @@ spring:
 
   #jpa Setting
   jpa.hibernate.ddl_auto : update
+
+
+logging:
+  level:
+    org:
+      springframework:
+        scheduling: DEBUG

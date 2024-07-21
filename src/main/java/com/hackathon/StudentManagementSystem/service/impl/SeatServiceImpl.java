@@ -5,6 +5,7 @@ import com.hackathon.StudentManagementSystem.model.SeatRequest;
 import com.hackathon.StudentManagementSystem.model.SeatResponse;
 import com.hackathon.StudentManagementSystem.repository.SeatRepo;
 import com.hackathon.StudentManagementSystem.service.SeatService;
+import com.hackathon.StudentManagementSystem.utill.ScheduledTasks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,9 @@ import java.util.UUID;
 public class SeatServiceImpl implements SeatService {
 @Autowired
 SeatRepo seatRepo;
+
     @Override
     public SeatResponse bookedSeatWithSeatNumber(SeatRequest seatRequest) {
-
-       // seatRequest.setDateTime();
 
         SeatResponse seatResponse = new SeatResponse();
         Integer bookingId = generateBookingId();

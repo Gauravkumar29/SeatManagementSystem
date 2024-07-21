@@ -30,5 +30,7 @@ public interface SeatRepo extends JpaRepository<SeatRequest,String> {
 
     SeatRequest findByBookingId(Integer bookingId);
 
-    void deleteByBookingId(Integer bookingId);
+    @Query(value = "SELECT * FROM seat_booking_info WHERE reservation_status = :booked and date = :date",
+            nativeQuery = true)
+    List<SeatRequest> getAllUserByStatus(String booked, LocalDate date);
 }
