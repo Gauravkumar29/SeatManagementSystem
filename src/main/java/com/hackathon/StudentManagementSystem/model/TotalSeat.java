@@ -14,12 +14,12 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "total_seat")
-
 public class TotalSeat {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   // @GeneratedValue(strategy = GenerationType.AUTO)
     private int seatId;
     private int seatNumber;
     private int floorNumber;
+    private String reservationStatus;
 }

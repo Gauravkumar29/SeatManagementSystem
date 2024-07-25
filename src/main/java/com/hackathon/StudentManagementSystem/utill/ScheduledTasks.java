@@ -20,14 +20,9 @@ public class ScheduledTasks {
     public void runAt11AmDaily() {
 
         System.out.println("Scheduler run at , "+ LocalDateTime.now());
-
         LocalDate date = LocalDate.now();
-
         List<SeatRequest> list = seatRepo.getAllUserByStatus("Booked",date);
 
         seatRepo.deleteAll(list);
-
-
-
     }
 }

@@ -5,17 +5,17 @@ import com.hackathon.StudentManagementSystem.model.SeatRequest;
 import com.hackathon.StudentManagementSystem.model.SeatResponse;
 import com.hackathon.StudentManagementSystem.repository.SeatRepo;
 import com.hackathon.StudentManagementSystem.service.SeatService;
-import com.hackathon.StudentManagementSystem.utill.ScheduledTasks;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 public class SeatServiceImpl implements SeatService {
 @Autowired
@@ -36,37 +36,31 @@ SeatRepo seatRepo;
         else {
            seatResponse.setStatus("Already Reserved");
         }
-
         return seatResponse;
     }
 
     @Override
-    public List<SeatRequest> getBookedSeat(String emplyId, String floorNumber, String seatNumber, LocalDate date) {
+    public List<SeatRequest> getBookedSeat(String employId, String floorNumber, String seatNumber, LocalDate date) {
 
         List<SeatRequest> list = new ArrayList<>();
 
-        if(floorNumber == null && emplyId ==null)
+        if(floorNumber == null && employId ==null)
             return seatRepo.findReservationForNextTwodays();
 
-        List<SeatRequest>  emplyHistory = seatRepo.getHistory(emplyId);
+        List<SeatRequest>  employHistory = seatRepo.getHistory(employId);
 
-        if(emplyId != null && emplyHistory != null) {
-            return emplyHistory;
+        if(employId != null && employHistory != null) {
+            return employHistory;
         }
-
-        //        if(!(result == null)){
-//            //list.add(result);
-//            return list;
-//        }
-
 
        return seatRepo.checkSeat(floorNumber, seatNumber, date);
     }
 
     @Override
     public SeatResponse confirmSeat(ConfirmSeatRequest confirmSeatRequest) {
-
-        var result = seatRepo.findByBookingId(confirmSeatRequest.getBookingId());
+        log.info("Enter confirmSeat method, confirmSeatRequest: {}", confirmSeatRequest);
+        var result = seatRepo.checkBookingStatus(confirmSeatRequest.getEmployId(),confirmSeatRequest.getFloorNumber(),
+                                                confirmSeatRequest.getSeatNumber(), confirmSeatRequest.getDate());
         SeatResponse seatResponse =new SeatResponse();
         if(result != null){
 
@@ -85,32 +79,19 @@ SeatRepo seatRepo;
     public String deleteUser(SeatRequest seatRequest) {
 
         if(seatRepo.findByBookingId(seatRequest.getBookingId()) != null){
-//            seatRepo.deleteByBookingId(seatRequest.getBookingId());
             seatRepo.delete(seatRequest);
             return "user deleted";
         }
-
         return  "user does not exist" ;
     }
 
     public static Integer generateBookingId() {
-        UUID uusid;
         int hashCode;
-
         do{
             hashCode =UUID.randomUUID().hashCode();
         }while (hashCode == Integer.MIN_VALUE);
 
         return Math.abs(hashCode);
     }
-
-
-//    @Override
-//    public List<SeatRequest> getAllBookedSeat(String emplyId) {
-//            return seatRepo.findAll();
-//
-//
-//    }
-
 
 }

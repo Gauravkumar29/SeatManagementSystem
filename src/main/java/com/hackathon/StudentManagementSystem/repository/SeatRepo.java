@@ -1,7 +1,6 @@
 package com.hackathon.StudentManagementSystem.repository;
 
 import com.hackathon.StudentManagementSystem.model.SeatRequest;
-import com.hackathon.StudentManagementSystem.model.SeatResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -33,4 +32,8 @@ public interface SeatRepo extends JpaRepository<SeatRequest,String> {
     @Query(value = "SELECT * FROM seat_booking_info WHERE reservation_status = :booked and date = :date",
             nativeQuery = true)
     List<SeatRequest> getAllUserByStatus(String booked, LocalDate date);
+
+    @Query(value = "SELECT * FROM seat_booking_info WHERE employ_id = :employId and floor_number = :floorNumber and seat_number = :seatNumber and date = :date",
+            nativeQuery = true)
+    SeatRequest checkBookingStatus(String employId, int floorNumber, int seatNumber, LocalDate date);
 }

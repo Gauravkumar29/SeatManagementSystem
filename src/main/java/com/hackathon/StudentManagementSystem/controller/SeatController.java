@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hackathon")
+@RequestMapping("/workspot/desk")
 public class SeatController {
 
     @Autowired
@@ -32,26 +32,25 @@ public class SeatController {
         return new ResponseEntity<>(seatResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/deskHistory")
     public ResponseEntity<List<SeatRequest>> getReservedSeat(
-            @RequestParam(value = "emplyId", required = false) String emplyId,
+            @RequestParam(value = "employId", required = false) String employId,
             @RequestParam(value = "floorNumber", required = false) String floorNumber,
             @RequestParam(value = "seatNumber", required = false) String seatNumber,
             @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 
-        List<SeatRequest> list =seatService.getBookedSeat(emplyId, floorNumber, seatNumber, date);
-
+        List<SeatRequest> list =seatService.getBookedSeat(employId, floorNumber, seatNumber, date);
         if(list.isEmpty())
             return new ResponseEntity<>(list, HttpStatus.NOT_FOUND);
 
-       return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/total-seat")
-    public ResponseEntity<List<TotalSeat>> getTotalSeat() {
-
-
-        return new ResponseEntity<>(totalSeatService.getTotalSeat(), HttpStatus.OK);
+    public ResponseEntity<List<TotalSeat>> getTotalSeat(
+            @RequestParam(value = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        return new ResponseEntity<>(totalSeatService.getTotalSeat(date), HttpStatus.OK);
     }
 
     @PutMapping("confirm-seat")
@@ -61,12 +60,10 @@ public class SeatController {
     }
 
 
-
     @PostMapping("delete-user")
     public ResponseEntity<String> deleteUser(@RequestBody SeatRequest seatRequest){
         String resp =  seatService.deleteUser(seatRequest);
         return new ResponseEntity<>( resp, HttpStatus.OK);
     }
-
 
 }
