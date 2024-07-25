@@ -4,8 +4,10 @@
 
 
 FROM openjdk:11-jre-slim-buster
-EXPOSE 80
-COPY . .
+
+WORKDIR /app
+COPY target/student-management-system-0.0.1.jar /app/student-management-system-0.0.1.jar
 # ADD target/student-management-system-0.0.1.jar student-management-system-0.0.1.jar
 RUN ls
-ENTRYPOINT ["java","-jar","/target/student-management-system-0.0.1.jar"]
+EXPOSE 80
+ENTRYPOINT ["java","-jar","/student-management-system-0.0.1.jar"]
