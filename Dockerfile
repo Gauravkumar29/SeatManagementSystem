@@ -5,7 +5,7 @@
 
 FROM openjdk:11-jre-slim-buster
 EXPOSE 80
-COPY ..
-ADD target/student-management-system-0.0.1.jar student-management-system-0.0.1.jar
+COPY . .
+# ADD target/student-management-system-0.0.1.jar student-management-system-0.0.1.jar
 RUN ls
-ENTRYPOINT ["java","-jar","/student-management-system-0.0.1.jar"]
+ENTRYPOINT ["java","-jar","/target/student-management-system-0.0.1.jar"]
