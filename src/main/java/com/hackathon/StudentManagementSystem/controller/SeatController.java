@@ -1,10 +1,12 @@
 package com.hackathon.StudentManagementSystem.controller;
 
 
+import com.hackathon.StudentManagementSystem.exceptions.SeatBookingExceptions;
 import com.hackathon.StudentManagementSystem.model.ConfirmSeatRequest;
 import com.hackathon.StudentManagementSystem.model.SeatRequest;
 import com.hackathon.StudentManagementSystem.model.SeatResponse;
 import com.hackathon.StudentManagementSystem.model.TotalSeat;
+import com.hackathon.StudentManagementSystem.payload.SeatBookingDTO;
 import com.hackathon.StudentManagementSystem.service.SeatService;
 import com.hackathon.StudentManagementSystem.service.TotalSeatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class SeatController {
             @RequestParam(value = "employId", required = false) String employId,
             @RequestParam(value = "floorNumber", required = false) String floorNumber,
             @RequestParam(value = "seatNumber", required = false) String seatNumber,
-            @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws SeatBookingExceptions {
 
         List<SeatRequest> list =seatService.getBookedSeat(employId, floorNumber, seatNumber, date);
         if(list.isEmpty())
@@ -59,11 +61,12 @@ public class SeatController {
         return new ResponseEntity<>(seatResponse, HttpStatus.OK);
     }
 
-
+//api for delete user
     @PostMapping("delete-user")
     public ResponseEntity<String> deleteUser(@RequestBody SeatRequest seatRequest){
         String resp =  seatService.deleteUser(seatRequest);
         return new ResponseEntity<>( resp, HttpStatus.OK);
     }
+
 
 }
