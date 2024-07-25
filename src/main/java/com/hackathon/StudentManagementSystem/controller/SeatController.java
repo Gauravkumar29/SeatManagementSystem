@@ -59,11 +59,12 @@ public class SeatController {
         return new ResponseEntity<>(seatResponse, HttpStatus.OK);
     }
 
-
+//api for delete user
     @PostMapping("delete-user")
     public ResponseEntity<String> deleteUser(@RequestBody SeatRequest seatRequest){
         String resp =  seatService.deleteUser(seatRequest);
         return new ResponseEntity<>( resp, HttpStatus.OK);
     }
+
 
 }
