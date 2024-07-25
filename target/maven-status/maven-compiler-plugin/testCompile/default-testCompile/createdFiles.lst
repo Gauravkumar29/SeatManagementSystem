@@ -1,0 +1,5 @@
+com\hackathon\StudentManagementSystem\model\SeatRequestTest.class
+com\hackathon\StudentManagementSystem\utill\ScheduledTasksTest.class
+com\hackathon\StudentManagementSystem\model\SeatResponseTest.class
+com\hackathon\StudentManagementSystem\model\TotalSeatTest.class
+com\hackathon\StudentManagementSystem\service\impl\SeatServiceImplTest.class
