@@ -15,11 +15,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
-
-
-
-
-  #jpa Setting
+ #jpa Setting
   jpa.hibernate.ddl_auto : update
 
 server:

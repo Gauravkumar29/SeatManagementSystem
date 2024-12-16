@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ConfirmSeatRequest {
-
     @NotNull
     private String employId;
 
